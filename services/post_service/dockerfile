@@ -1,9 +1,8 @@
-FROM alpine:latest
-RUN apk update
-RUN apk add py-pip
-RUN apk add --no-cache python3-dev 
-RUN pip install --upgrade pip
+FROM python:3.11-alpine
 WORKDIR /app
-COPY . /app
-RUN pip -r requirements.txt
-CMD ["python3", "app.py"]
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 5000
+ENV FLASK_APP=app.py
+CMD ["flask", "run", "--host", "0.0.0.0"]

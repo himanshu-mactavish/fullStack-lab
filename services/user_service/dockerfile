@@ -1,9 +1,26 @@
-FROM alpine:latest
-RUN apk update
-RUN apk add py-pip
-RUN apk add --no-cache python3-dev 
-RUN pip install --upgrade pip
+# Use the official Python base image
+FROM python:3.9-slim-buster
+ 
+# Set environment variables for configuration
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=5000
+ 
+# Set the working directory in the container
 WORKDIR /app
-COPY . /app
-RUN pip -r requirements.txt
-CMD ["python3", "app.py"]
+ 
+# Copy the requirements file to the working directory
+COPY requirements.txt .
+ 
+# Install the required dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+ 
+# Copy the application code to the working directory
+COPY . .
+ 
+# Expose the port on which the Flask application will run
+EXPOSE 5000
+
+ 
+# Run the Flask application
+CMD ["flask", "run"]
