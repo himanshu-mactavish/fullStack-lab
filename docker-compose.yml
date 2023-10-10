@@ -1,0 +1,10 @@
+version: '3'
+services:
+  user_service:
+    build: ./services/user_service
+    ports:
+      - "5000:5000"
+  post_service:
+    build: ./services/post_service
+    ports:
+      - "5001:5001"
